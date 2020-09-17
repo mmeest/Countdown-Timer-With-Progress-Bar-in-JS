@@ -7,4 +7,4 @@ Countdown Timer created with JavaScript, HTML, CSS
 * User input field - time in minutes
 * Numeric display of countdown
 * Progress bar of countdown
-* Reset button
+* Start/Reset button
