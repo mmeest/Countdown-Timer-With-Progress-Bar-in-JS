@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ajaloendur</title>
+  <style>
+    *{
+        color: rgb(245, 242, 237);
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        box-shadow: 7px 7px 5px #3c3eb3;
+        background-image: radial-gradient(rgb(87,87,230), rgb(33,36,20));
+    }
+    #progress-bar {
+      height: 32px;
+      background-color: rgb(191, 216, 231);
+    }
+    #progress-bar-fill {
+      height: 32px;
+      background-color: rgb(87, 93, 93);
+      background-image: radial-gradient(rgb(244, 255, 83), rgb(75, 181, 25));
+      width: 0%;
+    }
+    button{
+        font-size: 3vw;
+        color: rgb(245,242,237);
+        width: 20vh;
+        height: 20vh;
+        border-radius: 50%;
+        background-image: radial-gradient(rgb(87,87,230),rgb(33,36,20));
+    }
+    #timer{
+        font-size: 10vh;
+        font-weight: 600;
+        color: rgb(245,242,237);
+        margin:auto;
+        border-radius: 100%;
+
+    }
+  </style>
+</head>
+<body>
+  <h1>Ajaloendur</h1>
+  <form onsubmit="startCountdown(); return false;">
+    <label>Sisesta minutid:</label>
+    <input type="number" id="minutes-input">
+    <br>
+    <button type="submit" id="start-button">Start</button>
+  </form>
+  <div id="timer">00:00</div>
+  <div id="progress-bar">
+    <div id="progress-bar-fill"></div>
+  </div>
+
+  <script>
+    const timerDisplay = document.getElementById("timer");
+    const startButton = document.getElementById("start-button");
+    const progressBarFill = document.getElementById("progress-bar-fill");
+
+    let timeLeft;
+    let countdownInterval;
+    let progressBarWidth = 0;
+
+    function startCountdown() {
+      const minutes = parseInt(document.getElementById("minutes-input").value);
+      if (isNaN(minutes) || minutes <= 0) {
+        alert("Palun sisesta kehtiv minutite arv!");
+        return;
+      }
+
+      timeLeft = minutes * 60; // teisendame minutid sekunditeks
+      updateTimerDisplay();
+
+      if (countdownInterval) {
+				clearInterval(countdownInterval);
+		}
+
+      countdownInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+
+        progressBarWidth = ((minutes * 60 - timeLeft) / (minutes * 60)) * 100;
+        progressBarFill.style.width = progressBarWidth + "%";
+
+        if (timeLeft === 0) {
+          clearInterval(countdownInterval);
+          alert("Aeg on otsas!");
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeLeft / 60).toString().padStart(2, "0");
+      const seconds = (timeLeft % 60).toString().padStart(2, "0");
+      timerDisplay.textContent = `${minutes}:${seconds}`;
+    }
+  </script>
+</body>
+</html>
